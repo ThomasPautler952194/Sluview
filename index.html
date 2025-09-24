@@ -15,29 +15,25 @@
             <h2>Filters</h2>
             <p><strong>Category</strong></p>
             <ul>
-                <li>Coffee</li>
+                <li>SeaFood</li>
                 <li>Restaurants</li>
                 <li>Bars</li>
             </ul>
             <p><strong>Price</strong></p>
             <ul>
-                <li>$</li>
+                
                 <li>$$</li>
-                <li>$$$</li>
+                
             </ul>
         </div>
         
         <!-- Column B: Businesses -->
         <div class="column businesses">
             <h2>Featured Businesses</h2>
-            <p><strong>Bluebird Coffee</strong><br>
-            Coffee · St. Louis · $$ · ★★★★☆</p>
+            <p><strong>Clydes</strong><br>
+            Resturant · Rockville MD · $$ · ★★★★☆</p>
             
-            <p><strong>Riverside Taproom</strong><br>
-            Pub · Clayton · $$ · ★★★☆☆</p>
             
-            <p><strong>Saffron Spice</strong><br>
-            Indian · Midtown · $$$ · ★★★★★</p>
         </div>
         
         <!-- Column C: Reviews -->
@@ -60,5 +56,22 @@
         </div>
     </div>
 </body>
+</html>
+<script>
+    fetch('data/webscraper.csv') // <-- update this if your file has a different path/name
+        .then(response => response.json())
+        .then(reviews => {
+            const reviewsDiv = document.querySelector('.reviews');
+            reviewsDiv.innerHTML = '<h2>Latest Reviews</h2>'; // clear placeholder
 
+            reviews.forEach(r => {
+                const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+                const p = document.createElement('p');
+                p.innerHTML = `<strong>${r.reviewer}</strong> · ${stars}<br>"${r.text}"`;
+                reviewsDiv.appendChild(p);
+            });
+        })
+        .catch(err => console.error('Error loading reviews:', err));
+    </script>
+</body>
 </html>
