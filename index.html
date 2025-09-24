@@ -1,112 +1,60 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SLUview</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background: #f5f5f5;
-        }
-
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .column {
-            flex: 1;
-            min-width: 250px;
-            padding: 15px;
-            border-radius: 5px;
-        }
-
-        /* Simple color differentiation */
-        .filters {
-            background: #e6f7ff;  /* Light blue */
-        }
-
-        .businesses {
-            background: #fff2e6;  /* Light orange */
-        }
-
-        .reviews {
-            background: #f0ffe6;  /* Light green */
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        /* Basic responsive behavior */
-        @media (max-width: 768px) {
-            .column {
-                min-width: 100%;
-            }
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SLUview</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+    .container { display: flex; flex-wrap: wrap; gap: 15px; }
+    .column { flex: 1; min-width: 250px; padding: 15px; border-radius: 5px; }
+    .filters { background: #e6f7ff; }
+    .businesses { background: #fff2e6; }
+    .reviews { background: #f0ffe6; }
+    h1 { text-align: center; color: #333; }
+    @media (max-width: 768px) { .column { min-width: 100%; } }
+  </style>
 </head>
 <body>
-    <h1>SLUview</h1>
-    
-    <div class="container">
-        <!-- Column A: Filters -->
-        <div class="column filters">
-            <h2>Filters</h2>
-            <p><strong>Category</strong></p>
-            <ul>
-                <li>SeaFood</li>
-                <li>Restaurants</li>
-                <li>Bars</li>
-            </ul>
-            <p><strong>Price</strong></p>
-            <ul>
-                <li>$$</li>
-            </ul>
-        </div>
-        
-        <!-- Column B: Businesses -->
-        <div class="column businesses">
-            <h2>Featured Businesses</h2>
-            <p><strong>Clydes</strong><br>
-            Restaurant · Rockville MD · $$ · ★★★★☆</p>
-        </div>
-        
-        <!-- Column C: Reviews -->
-        <div class="column reviews">
-            <h2>Latest Reviews</h2>
-            <!-- Reviews will be inserted here dynamically -->
-        </div>
+  <h1>SLUview</h1>
+
+  <div class="container">
+    <div class="column filters">
+      <h2>Filters</h2>
+      <p><strong>Category</strong></p>
+      <ul>
+        <li>SeaFood</li>
+        <li>Restaurants</li>
+        <li>Bars</li>
+      </ul>
+      <p><strong>Price</strong></p>
+      <ul>
+        <li>$$</li>
+      </ul>
     </div>
 
-    <script>
-        fetch('webscraper.json') // make sure your JSON file is in the same folder
-            .then(response => response.json())
-            .then(data => {
-                const reviewsDiv = document.querySelector('.reviews');
-                reviewsDiv.innerHTML = '<h2>Latest Reviews</h2>'; // clear placeholder
+    <div class="column businesses">
+      <h2>Featured Businesses</h2>
+      <p><strong>Clydes</strong><br>Restaurant · Rockville MD · $$ · ★★★★☆</p>
+    </div>
 
-                // Iterate over your JSON data
-                for (let i = 1; i <= 5; i++) {
-                    const reviewer = data[`Recent Review ${i} Author-0`];
-                    const content = data[`Recent Review ${i} Content-0`];
-                    const rating = data[`Recent Review ${i} Rating-0`];
+    <div class="column reviews">
+      <h2>Latest Reviews</h2>
+      <p><strong>Craig D.</strong> · ★★★★☆<br>
+      "** Brookville Oktoberfest (draft) = (4.15) Very good<br>
+      ** Bavarian Soft Pretzel = (4.15) Very tasty & Shareable Liked the beer cheese & honey mustard too;)<br>
+      ** Jagerschnitzel = (4) very tasty<br>
+      ** Oktoberfest Platter = (4) very good<br>
+      ** Apple Dumpling = (4) very good & shareable"</p>
 
-                    if (reviewer && content && rating != null) {
-                        const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
-                        const p = document.createElement('p');
-                        p.innerHTML = `<strong>${reviewer}</strong> · ${stars}<br>"${content}"`;
-                        reviewsDiv.appendChild(p);
-                    }
-                }
-            })
-            .catch(err => console.error('Error loading reviews:', err));
-    </script>
+      <p><strong>Luis B.</strong> · ★★★☆☆<br>
+      "From the moment we walked in, the service was excellent! Sky at the front made us feel right at home with great food recommendations, and our server Lucy was amazing--attentive, kind, and on point with everything. We even left her a great tip because she truly earned it.<br><br>
+      But the bar was a completely different story. I asked bartender Vick for water, and not only did he ignore me the first time, but when I asked again respectfully, he gave me attitude, served others first, and then left my water at the far end of the bar like I wasn't worth the effort. When I asked another bartender, Henry, for his name, he also responded with attitude.<br>
+      The manager handled the situation professionally and apologized, but no customer spending good money should be treated like that. The restaurant itself is great, but the bartenders need serious improvement"</p>
+    </div>
+  </div>
 </body>
 </html>
+
 
 
