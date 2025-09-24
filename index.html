@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SLUview</title>
+    <!-- CSS file in the root folder -->
     <link rel="stylesheet" href="SLU.css">
 </head>
 <body>
@@ -21,9 +22,7 @@
             </ul>
             <p><strong>Price</strong></p>
             <ul>
-                
                 <li>$$</li>
-                
             </ul>
         </div>
         
@@ -31,9 +30,7 @@
         <div class="column businesses">
             <h2>Featured Businesses</h2>
             <p><strong>Clydes</strong><br>
-            Resturant · Rockville MD · $$ · ★★★★☆</p>
-            
-            
+            Restaurant · Rockville MD · $$ · ★★★★☆</p>
         </div>
         
         <!-- Column C: Reviews -->
@@ -55,21 +52,31 @@
             "Lovely decor and friendly staff."</p>
         </div>
     </div>
+
+    <!-- Optional: script for loading CSV later -->
+    <script>
+        // Keep this commented until you integrate your CSV
+        /*
+        fetch('webscraper.csv')
+            .then(response => response.text())
+            .then(data => {
+                const reviewsDiv = document.querySelector('.reviews');
+                reviewsDiv.innerHTML = '<h2>Latest Reviews</h2>';
+
+                const rows = data.split('\n').slice(1); // skip header
+                rows.forEach(row => {
+                    if (!row) return;
+                    const [reviewer, rating, text] = row.split(',');
+                    const stars = '★'.repeat(parseInt(rating)) + '☆'.repeat(5 - parseInt(rating));
+                    const p = document.createElement('p');
+                    p.innerHTML = `<strong>${reviewer}</strong> · ${stars}<br>"${text}"`;
+                    reviewsDiv.appendChild(p);
+                });
+            })
+            .catch(err => console.error('Error loading reviews:', err));
+        */
+    </script>
 </body>
 </html>
-<script>
-    fetch('data/webscraper.csv') // <-- update this if your file has a different path/name
-        .then(response => response.json())
-        .then(reviews => {
-            const reviewsDiv = document.querySelector('.reviews');
-            reviewsDiv.innerHTML = '<h2>Latest Reviews</h2>'; // clear placeholder
 
-            reviews.forEach(r => {
-                const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
-                const p = document.createElement('p');
-                p.innerHTML = `<strong>${r.reviewer}</strong> · ${stars}<br>"${r.text}"`;
-                reviewsDiv.appendChild(p);
-            });
-        })
-        .catch(err => console.error('Error loading reviews:', err));
-    </script>
+
