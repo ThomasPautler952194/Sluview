@@ -1,7 +1,3 @@
-
-
-
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -9,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SLUview</title>
     <style>
-        /* ==== Your CSS ==== */
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
@@ -57,7 +52,7 @@
 </head>
 <body>
     <h1>SLUview</h1>
-
+    
     <div class="container">
         <!-- Column A: Filters -->
         <div class="column filters">
@@ -73,34 +68,45 @@
                 <li>$$</li>
             </ul>
         </div>
-
+        
         <!-- Column B: Businesses -->
         <div class="column businesses">
             <h2>Featured Businesses</h2>
-            <p><strong>Clydes</strong><br>Restaurant · Rockville MD · $$ · ★★★★☆</p>
+            <p><strong>Clydes</strong><br>
+            Restaurant · Rockville MD · $$ · ★★★★☆</p>
         </div>
-
+        
         <!-- Column C: Reviews -->
         <div class="column reviews">
             <h2>Latest Reviews</h2>
+            <!-- Reviews will be inserted here dynamically -->
         </div>
     </div>
 
     <script>
-        // Load JSON reviews from the same folder
-        fetch('webscraper.json')
+        fetch('webscraper.json') // make sure your JSON file is in the same folder
             .then(response => response.json())
-            .then(reviews => {
+            .then(data => {
                 const reviewsDiv = document.querySelector('.reviews');
+                reviewsDiv.innerHTML = '<h2>Latest Reviews</h2>'; // clear placeholder
 
-                reviews.forEach(r => {
-                    const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
-                    const p = document.createElement('p');
-                    p.innerHTML = `<strong>${r.reviewer}</strong> · ${stars}<br>"${r.text}"`;
-                    reviewsDiv.appendChild(p);
-                });
+                // Iterate over your JSON data
+                for (let i = 1; i <= 5; i++) {
+                    const reviewer = data[`Recent Review ${i} Author-0`];
+                    const content = data[`Recent Review ${i} Content-0`];
+                    const rating = data[`Recent Review ${i} Rating-0`];
+
+                    if (reviewer && content && rating != null) {
+                        const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+                        const p = document.createElement('p');
+                        p.innerHTML = `<strong>${reviewer}</strong> · ${stars}<br>"${content}"`;
+                        reviewsDiv.appendChild(p);
+                    }
+                }
             })
             .catch(err => console.error('Error loading reviews:', err));
     </script>
 </body>
 </html>
+
+
