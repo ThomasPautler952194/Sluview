@@ -5,58 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SLUview</title>
     <link rel="stylesheet" href="SLU.css">
-    <style>
-        /* Inline CSS fallback if SLU.css has issues */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        h1 {
-            text-align: center;
-            padding: 20px;
-            background-color: #2a9d8f;
-            color: white;
-            margin: 0;
-        }
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            padding: 20px;
-            gap: 20px;
-        }
-        .column {
-            background-color: #f0f0f0;
-            padding: 15px;
-            border-radius: 8px;
-            flex: 1 1 300px;
-            min-width: 250px;
-        }
-        .filters {
-            background-color: #e9c46a;
-        }
-        .businesses {
-            background-color: #f4a261;
-        }
-        .reviews {
-            background-color: #264653;
-            color: white;
-        }
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-        }
-    </style>
 </head>
 <body>
     <h1>SLUview</h1>
-
+    
     <div class="container">
         <!-- Column A: Filters -->
         <div class="column filters">
             <h2>Filters</h2>
-            <p><strong>Category</strong></p>
             <ul>
                 <li>SeaFood</li>
                 <li>Restaurants</li>
@@ -67,35 +23,38 @@
                 <li>$$</li>
             </ul>
         </div>
-
+        
         <!-- Column B: Businesses -->
         <div class="column businesses">
             <h2>Featured Businesses</h2>
-            <p><strong>Clydes</strong><br>
-            Restaurant · Rockville MD · $$ · ★★★★☆</p>
+            <p><strong>Clydes</strong><br>Restaurant · Rockville MD · $$ · ★★★★☆</p>
         </div>
-
+        
         <!-- Column C: Reviews -->
         <div class="column reviews">
             <h2>Latest Reviews</h2>
-            <p><strong>A. Johnson</strong> · ★★★★★<br>
-            "Amazing espresso and friendly staff."</p>
-
-            <p><strong>L. Martinez</strong> · ★★★★☆<br>
-            "Great vibe and decent beer selection."</p>
-
-            <p><strong>Priya S.</strong> · ★★★★★<br>
-            "Exceptional flavors and great service."</p>
-
-            <p><strong>D. Kim</strong> · ★★★☆☆<br>
-            "Good place for a casual night."</p>
-
-            <p><strong>S. O'Neil</strong> · ★★★★☆<br>
-            "Lovely decor and friendly staff."</p>
         </div>
     </div>
+
+    <script>
+        fetch('data/webscraper.json')
+            .then(response => response.json())
+            .then(reviews => {
+                const reviewsDiv = document.querySelector('.reviews');
+
+                reviews.forEach(r => {
+                    const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+                    const p = document.createElement('p');
+                    p.innerHTML = `<strong>${r.reviewer}</strong> · ${stars}<br>"${r.text}"`;
+                    reviewsDiv.appendChild(p);
+                });
+            })
+            .catch(err => console.error('Error loading reviews:', err));
+    </script>
 </body>
 </html>
+
+
 
 
 
