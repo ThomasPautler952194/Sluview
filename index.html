@@ -21,9 +21,7 @@
             </ul>
             <p><strong>Price</strong></p>
             <ul>
-                
                 <li>$$</li>
-                
             </ul>
         </div>
         
@@ -31,45 +29,35 @@
         <div class="column businesses">
             <h2>Featured Businesses</h2>
             <p><strong>Clydes</strong><br>
-            Resturant · Rockville MD · $$ · ★★★★☆</p>
-            
-            
+            Restaurant · Rockville MD · $$ · ★★★★☆</p>
         </div>
         
         <!-- Column C: Reviews -->
         <div class="column reviews">
             <h2>Latest Reviews</h2>
-            <p><strong>A. Johnson</strong> · ★★★★★<br>
-            "Amazing espresso and friendly staff."</p>
-            
-            <p><strong>L. Martinez</strong> · ★★★★☆<br>
-            "Great vibe and decent beer selection."</p>
-            
-            <p><strong>Priya S.</strong> · ★★★★★<br>
-            "Exceptional flavors and great service."</p>
-            
-            <p><strong>D. Kim</strong> · ★★★☆☆<br>
-            "Good place for a casual night."</p>
-            
-            <p><strong>S. O'Neil</strong> · ★★★★☆<br>
-            "Lovely decor and friendly staff."</p>
+            <!-- Reviews will be populated here from CSV -->
         </div>
     </div>
+
+    <script>
+        fetch('data/webscraper.csv') // your CSV file path
+            .then(response => response.text())
+            .then(csvText => {
+                const reviewsDiv = document.querySelector('.reviews');
+                reviewsDiv.innerHTML = '<h2>Latest Reviews</h2>'; // clear placeholder
+
+                const rows = csvText.trim().split('\n');
+                rows.forEach((row, index) => {
+                    if (index === 0) return; // skip header row
+                    const [reviewer, rating, text] = row.split(',');
+                    const stars = '★'.repeat(Number(rating)) + '☆'.repeat(5 - Number(rating));
+                    const p = document.createElement('p');
+                    p.innerHTML = `<strong>${reviewer}</strong> · ${stars}<br>"${text}"`;
+                    reviewsDiv.appendChild(p);
+                });
+            })
+            .catch(err => console.error('Error loading reviews:', err));
+    </script>
 </body>
 </html>
-<script>
-    fetch('data/webscraper.csv') // <-- update this if your file has a different path/name
-        .then(response => response.json())
-        .then(reviews => {
-            const reviewsDiv = document.querySelector('.reviews');
-            reviewsDiv.innerHTML = '<h2>Latest Reviews</h2>'; // clear placeholder
 
-            reviews.forEach(r => {
-                const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
-                const p = document.createElement('p');
-                p.innerHTML = `<strong>${r.reviewer}</strong> · ${stars}<br>"${r.text}"`;
-                reviewsDiv.appendChild(p);
-            });
-        })
-        .catch(err => console.error('Error loading reviews:', err));
-    </script>
