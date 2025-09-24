@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>SLUview</h1>
-
+    
     <div class="container">
         <!-- Column A: Filters -->
         <div class="column filters">
@@ -21,30 +21,55 @@
             </ul>
             <p><strong>Price</strong></p>
             <ul>
+                
                 <li>$$</li>
+                
             </ul>
         </div>
-
+        
         <!-- Column B: Businesses -->
         <div class="column businesses">
             <h2>Featured Businesses</h2>
             <p><strong>Clydes</strong><br>
-            Restaurant · Rockville MD · $$ · ★★★★☆</p>
+            Resturant · Rockville MD · $$ · ★★★★☆</p>
+            
+            
         </div>
-
+        
         <!-- Column C: Reviews -->
         <div class="column reviews">
             <h2>Latest Reviews</h2>
-            <!-- Reviews will be injected here -->
+            <p><strong>A. Johnson</strong> · ★★★★★<br>
+            "Amazing espresso and friendly staff."</p>
+            
+            <p><strong>L. Martinez</strong> · ★★★★☆<br>
+            "Great vibe and decent beer selection."</p>
+            
+            <p><strong>Priya S.</strong> · ★★★★★<br>
+            "Exceptional flavors and great service."</p>
+            
+            <p><strong>D. Kim</strong> · ★★★☆☆<br>
+            "Good place for a casual night."</p>
+            
+            <p><strong>S. O'Neil</strong> · ★★★★☆<br>
+            "Lovely decor and friendly staff."</p>
         </div>
     </div>
+</body>
+</html>
+<script>
+    fetch('data/webscraper.csv') // <-- update this if your file has a different path/name
+        .then(response => response.json())
+        .then(reviews => {
+            const reviewsDiv = document.querySelector('.reviews');
+            reviewsDiv.innerHTML = '<h2>Latest Reviews</h2>'; // clear placeholder
 
-    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
-    <script>
-        fetch('data/webscraper.csv')
-            .then(response => response.text())
-            .then(csvText => {
-                const results = Papa.parse(csvText, { header: true });
-                const reviewsDiv = document.querySel
-
-
+            reviews.forEach(r => {
+                const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+                const p = document.createElement('p');
+                p.innerHTML = `<strong>${r.reviewer}</strong> · ${stars}<br>"${r.text}"`;
+                reviewsDiv.appendChild(p);
+            });
+        })
+        .catch(err => console.error('Error loading reviews:', err));
+    </script>
